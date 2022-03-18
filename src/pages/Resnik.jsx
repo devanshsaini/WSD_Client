@@ -7,26 +7,35 @@ export const Resnik = () => {
 
   const findSimilarity = async (event) => {
     event.preventDefault();
-    const res = await fetch(`http://192.168.0.107:8000/resnik/perform-similarity/${firstWord}/${secondWord}/`);
-    const data = await res.json();
-    setResnikData(data);
+    try {
+      const res = await fetch(`http://localhost:8000/resnik/perform-similarity/${firstWord}/${secondWord}/`);
+      const data = await res.json();
+      setResnikData(data);
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   return (
     <>
-      <h1>Resnik Algorithm</h1>
+      <h1 style={{ textDecoration: "underline" }}>Resnik Algorithm</h1>
       <br />
       <form onSubmit={(event) => findSimilarity(event)}>
+        <label htmlFor="firstWord">First Word: </label>
         <input type="text" value={firstWord} onChange={(e) => setFirstWord(e.target.value)} placeholder='Enter your word' />
+        <br />
+        <label htmlFor="secondWord">Second Word: </label>
         <input type="text" value={secondWord} onChange={(e) => setSecondWord(e.target.value)} placeholder='Enter your word' />
+        <br />
         <button>Find similarity</button>
       </form>
 
-        <div id="resnik-data">
-          <h3 style={{ textTransform: 'capitalize' }}>{firstWord} Definition: {resnikData.definition1}</h3>
-          <h3 style={{ textTransform: 'capitalize' }}>{secondWord} Definition: {resnikData.definition2}</h3>
-          <h3>Similarity: {resnikData.similarity}</h3>
-        </div>
+      {Object.keys(resnikData).length > 0 &&
+        <div id>
+        <h3 style={{ textTransform: 'capitalize' }}>{firstWord} Definition: {resnikData.definition1}</h3>
+        <h3 style={{ textTransform: 'capitalize' }}>{secondWord} Definition: {resnikData.definition2}</h3>
+        <h3>Similarity: {resnikData.similarity}</h3>
+      </div>}
     </>
   )
 }
