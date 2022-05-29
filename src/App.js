@@ -8,6 +8,9 @@ import { Routes, Route, NavLink, Navigate } from "react-router-dom";
 const App = () => {
   return (
     <div className="App">
+      <section className="heading">
+        <span>WORD SENSE DISAMBIGUATION</span>
+      </section>
       <div className="topnav">
         <NavLink activeclassname="active" to="/home">
           Home
